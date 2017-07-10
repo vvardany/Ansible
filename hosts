@@ -1,0 +1,8 @@
+[webs]
+web hostname_suffix=web-srv01
+
+[apps]
+app hostname_suffix=app-srv01
+
+[dbs]
+db hostname_suffix=db-srv01

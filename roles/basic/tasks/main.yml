@@ -1,0 +1,48 @@
+- name: "Basic installetion"
+  yum: name={{ item }} state=latest
+  with_items:
+  - epel-release
+  - ntp
+  - vim
+   
+- name: "Enable NTP service"
+  service: 
+    name: ntpd 
+    enabled: yes 
+    state: started
+
+- name: "Adding bashrc"
+  copy: 
+    src: ../files/bashrc 
+    dest: /root/.bashrc 
+    owner: root 
+    group: root 
+    mode: 0644
+
+- name: "Adding my id_rsa.pub"
+  authorized_key: 
+    user: root 
+    state: present 
+    key: "{{ lookup('file', '../files/vardan_mac.pub') }}"
+
+- name: "Setting hostname"
+  hostname: 
+    name: "{{ hostname_suffix }}"
+
+- name: "Creating Admin Group"
+  group: 
+    name: admin
+
+- name: "Creating User"
+  user: 
+    name: vardan 
+    comment: "Vardan Vardanyan" 
+    group: admin 
+    password: "$6$viurpqGofhTcVVS.$f82V9o59x9GVlVRDT9YnmESnhtPjcmBJSqb4qn1DWsyy8r9YPs1127TEESS44.bqrJO8VhFRdb7VlHIPuFerV1"
+
+- name: "Allow 'wheel' group to have passwordless sudo"
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    line: '%admin ALL=(ALL) NOPASSWD: ALL'
+    validate: visudo -cf %s
