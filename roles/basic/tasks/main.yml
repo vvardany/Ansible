@@ -13,11 +13,13 @@
 
 - name: "Adding bashrc"
   copy: 
-    src: ../files/bashrc 
+    src: ../templates/bashrc 
     dest: /root/.bashrc 
     owner: root 
     group: root 
     mode: 0644
+  tags:
+     - bashrc
 
 - name: "Adding my id_rsa.pub"
   authorized_key: 

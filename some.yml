@@ -1,3 +1,0 @@
-- hosts: all
-  roles:
-  - { role: webservers, when: "ansible_nodename == 'db-srv01'" }
