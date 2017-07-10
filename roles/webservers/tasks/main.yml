@@ -1,2 +1,23 @@
-- name: "Cheking Variable"
-  template: src=../files/variable dest=/tmp/test_variable owner=root group=root mode=0644
+- name: This is a just Cheking Variables
+  template:
+    src: ../files/variable
+    dest: /tmp/test_variable
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Install Apache
+  yum: 
+    name: "{{ item }}" 
+    state: latest
+  with_items:
+  - httpd
+  tags: http
+
+- name: copy file
+  template: 
+    src: ../files/111 
+    dest: /var/www/test_file1
+  notify:
+    - restart httpd
+  tags: http
